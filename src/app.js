@@ -44,9 +44,6 @@ const getHashedPassword = (password) => {
     return hash;
 }
 
-const generateAuthToken = () => {
-    return crypto.randomBytes(30).toString('hex');
-}
 
 const users = [
     // This user is added to the array to avoid creating a new user on each restart
@@ -98,6 +95,9 @@ app.post('/register', (req, res) => {
     }
 });
 
+const generateAuthToken = () => {
+    return crypto.randomBytes(30).toString('hex');
+}
 
 // This will hold the users and authToken related to users
 const authTokens = {};
@@ -128,3 +128,18 @@ app.post('/login', (req, res) => {
         });
     }
 });
+
+
+// protected request handlers
+
+app.get('/protected', (req, res) => {
+    if (req.user) {
+        res.render('protected');
+    } else {
+        res.render('login', {
+            message: 'Please login to continue',
+            messageClass: 'alert-danger'
+        });
+    }
+});
+
