@@ -26,6 +26,17 @@ app.get('/', function (req, res) {
 });
 
 //request that handles the registration template when the user visits
-app.get('/layouts/register', (req, res) => {
-    res.render('register.hbs');
+app.get('./views/register', (req, res) => {
+    res.render('./views/register');
 });
+
+const b = require('./views/register.hbs');
+
+
+const crypto = require('crypto');
+
+const getHashedPassword = (password) => {
+    const sha256 = crypto.createHash('sha256');
+    const hash = sha256.update(password).digest('base64');
+    return hash;
+}
